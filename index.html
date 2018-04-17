@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=VT323">
+  <link href="css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <title>Memory Game</title>
+</head>
+<body>
+
+  
+
+  <!-- continer for the layout of the page -->
+
+
+
+  <div class="container-fluid">
+    <!-- game controller -->
+    <div class="row">
+      <div class="col-md-3 my-5">  <!-- my-5 = margin y axis largest (goes from 0 to 5) -->
+        <div class="row">
+          <div class="col-md-12">
+            <!-- img-fluid sizes the image -->
+            <img class="img-fluid" alt="Game Logo" src="img/rock-paper-scissors-logo.jpg" />
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12 my-5 instructions-container">  <!-- my-5 = margin y axis largest (goes from 0 to 5) -->
+            <p class="text-center" id="game-instructions">
+              How many players will there be?
+            </p>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-2">
+          </div>
+          <div class="col-md-4">
+              
+            <button id="one-player-button" type="button" class="btn btn-success" number="1">
+              1-Player
+            </button>
+          </div>
+          <div class="col-md-4">
+              
+            <button id="two-players-button" type="button" class="btn btn-success" number="2">
+              2-Players
+            </button>
+          </div>
+          <div class="col-md-2">
+          </div>
+        </div>
+      </div>
+      <!-- end game controller -->
+      <!-- question space -->
+      <div class="col-md-9 my-5">
+        <div class="row">
+          <div class="col-md-9">
+            <div id="top-question" class="page-header text-center">
+              <h1>
+                Q: <small>This is the question?</small>
+              </h1>
+            </div>
+          </div>
+          <!-- timer -->
+          <div class="col-md-3">
+            <div class="row">
+              <div class="col-md-11 btn counter timer">
+                <span id="timer-display">0</span>
+                <span>seconds</span>
+              </div>
+            </div>
+            <!-- player points -->
+            <div class="row">
+              <div class="col-md-6 player-one">
+                <p>Player 1</p>
+                <p id="player-one-points" class="btn counter points player-one">0</p>
+              </div>
+              <div class="col-md-6 player-two">
+                <p>Player 2</p>
+                <p id="player-two-points" class="btn counter points player-two">0</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <!-- spacing -->
+          <div class="col-md-12 my-1">
+            <div class="row">
+              <div class="col-md-12">
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-2">
+              </div>
+              <div class="col-md-4">
+                 <!-- card 1 -->
+                <div id="card1" class="btn btn-secondary game-card" card-number="1">
+
+                  <!-- card front testing -->
+                  <!-- <img src="img/scissors.png">
+                   -->
+
+
+
+
+
+
+
+
+                </div>
+              </div>
+              <div class="col-md-1">
+              </div>
+              <div class="col-md-4">
+                 <!-- card 2 -->
+                <div id="card2" class="btn btn-secondary game-card" card-number="2">
+                  
+                </div>
+              </div>
+              <div class="col-md-1">
+              </div>
+            </div>
+            <div class="row my-5">
+            </div>
+            <div class="row">
+              <div class="col-md-2">
+              </div>
+              <div class="col-md-4">
+                 <!-- card 3 -->
+                <div id="card3" class="btn btn-secondary game-card" card-number="3">
+                  
+                </div>
+              </div>
+              <div class="col-md-1">
+              </div>
+              <div class="col-md-4">
+                 <!-- card 4 -->
+                <div id="card4" class="btn btn-secondary game-card" card-number="4">
+                  
+                </div>
+              </div>
+              <div class="col-md-1">
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+  <!-- end of layout container -->
+
+
+
+  <!-- jQuery -->
+  <script src="scripts/jquery-3.3.1.js"></script>
+  <!-- bootstrap -->
+  <script src="scripts/bootstrap.min.js"></script>
+
+  <!-- javascript for the project -->
+  <script type="text/javascript" src="scripts/decks.js"></script>
+  <script type="text/javascript" src="scripts/game.js"></script>
+  <script type="text/javascript" src="scripts/script.js"></script>
+</body>
+</html>

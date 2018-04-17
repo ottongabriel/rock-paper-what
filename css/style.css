@@ -1,0 +1,35 @@
+.instructions-container{
+  height: 15vmin;
+}
+
+.game-card{
+  width: 300px;
+  height: 200px;
+  border-radius: 10px;
+}
+
+#top-question{
+  height: 3em;
+}
+
+.counter{
+  background-color: black;
+  font-family: VT323;
+  color: #00ED19;
+}
+
+.timer{
+  color: #00ED19;
+  font-size: 40px;
+}
+
+.points{
+  font-size: 30px;
+}
+.player-one{
+  color: red;
+}
+
+.player-two{
+  color: blue;
+}

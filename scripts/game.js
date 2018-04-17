@@ -25,6 +25,7 @@ MemoryGame.prototype.setDeck = function() {
 // NOTE: the deck must be set first
 */ 
 MemoryGame.prototype.getFourRandomCards = function () {
+  this.currentCards = [];
   for(var i = 0; i < 4; i++){
     var randomCardIndex = Math.floor(Math.random() * this.currentDeck.cards.length);
     var card = this.currentDeck.cards[randomCardIndex];
@@ -103,8 +104,9 @@ MemoryGame.prototype.updateTimer = function(secondsLeft){
 */ 
 MemoryGame.prototype.buildFrontCardHtml = function(index){
   var html="";
-  html += '<img src="' + this.currentCards[index].image + '">';
-  console.log('html: ', html);
+  var cardImage = this.currentCards[index].image;
+  html += '<img src="' + cardImage + '">';
+  // console.log('html: ', html);
   return html;
 }
 
@@ -115,18 +117,100 @@ MemoryGame.prototype.buildFrontCardHtml = function(index){
 */
 MemoryGame.prototype.flipCardsUp = function(){
   var cardsToFlip = $(".game-card");
-  console.log('cardsToFlip: ', cardsToFlip);
+  console.log('cardsToFlip up: ', cardsToFlip);
 
   for(var i = 0; i < cardsToFlip.length; i++){
-    $(cardsToFlip[i]).toggleClass("btn-secondary btn-outline-primary");
+    // goes through each card and gets the background color within their properties
+    var cardBackgroundColor = this.currentCards[i].backgroundColor;
+    // that is necessary to set it here
+    $(cardsToFlip[i]).toggleClass("btn-secondary card-color-" + cardBackgroundColor);
+    // build the html content
     var cardFrontContent = this.buildFrontCardHtml(i);
+    // fill the card
     $(cardsToFlip[i]).html(cardFrontContent);
   }
 }
     
     
-    
-    
+/*
+// flips cards down
+*/
+MemoryGame.prototype.flipCardsDown = function(){
+  var cardsToFlip = $(".game-card");
+  console.log('cardsToFlip down: ', cardsToFlip);
+
+  for(var i = 0; i < cardsToFlip.length; i++){
+    // goes through each card and gets the background color within their properties
+    var cardBackgroundColor = this.currentCards[i].backgroundColor;
+    // tha is necessary to unset it here
+    $(cardsToFlip[i]).toggleClass("btn-secondary card-color-" + cardBackgroundColor);
+    // create an empty string
+    var cardBackContent = "";
+    // to empty the card
+    $(cardsToFlip[i]).html(cardBackContent);
+  }
+}
+
+
+/*
+// Build options to answer
+*/
+MemoryGame.prototype.buildAnswerButtons = function(){
+  var html="";
+  switch (this.currentDeck.name) {
+    case "rockPaperScissorsDeck":
+      html+='   <div class="container center-block">';
+      html+='     <div class="row">';
+      html+='       <button type="button" class="btn btn-success my-1">rock</button>';
+      html+='     </div>';
+      html+='     <div class="row">';
+      html+='       <button type="button" class="btn btn-success my-1">paper</button>';
+      html+='     </div>';
+      html+='     <div class="row">';
+      html+='       <button type="button" class="btn btn-success my-1">scissors</button>';
+      html+='     </div>';
+      html+='   </div>';  
+      break;
+  
+    default:
+      console.log("something went wrong with the answer button builder");
+      break;
+  }
+
+  // console.log('html: ', html);
+  return html;
+}
+
+
+
+/*
+// show answer buttons
+*/
+MemoryGame.prototype.showAnswerButtons = function(){
+  // cards to add buttons to
+  var cards = $(".game-card");
+
+  for(var i = 0; i < cards.length; i++){
+    // build the html for the buttons
+    var answerButtonsHtml = this.buildAnswerButtons();
+    // fill the card
+    $(cards[i]).html(answerButtonsHtml);
+  }
+}
+
+
+/*
+// hide answer buttons
+*/
+MemoryGame.prototype.hideAnswerButtons = function() {
+  // cards to remove buttons from
+  var cards = $(".game-card");
+
+  for(var i = 0; i < cards.length; i++){
+    // fill the card
+    $(cards[i]).html("");
+  }
+}
 
 
 
@@ -144,4 +228,12 @@ MemoryGame.prototype.startGame = function(players){
   console.log('this.numberOfPlayers: ', this.numberOfPlayers);
   this.setTurn();
   this.flipCardsUp();
+  // this.flipCardsDown();
+
+
+
+ 
+
+
+
 }

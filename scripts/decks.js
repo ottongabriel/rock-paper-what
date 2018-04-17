@@ -11,7 +11,7 @@ var decks = [
         beats: 'scissors',
         isBeatBy: 'paper',
         size: 'medium',
-        backgroundColor: 'blue',
+        backgroundColor: 'red',
       },
       {
         cardName: 'paper',
@@ -27,15 +27,15 @@ var decks = [
         beats: 'paper',
         isBeatBy: 'rock',
         size: 'medium',
-        backgroundColor: 'blue',
+        backgroundColor: 'green',
       }
     ],
     questions: [
       ["What was on the card?", "cardName"],
       ["What does the item on the card beat?", "beats"],
-      ["What beats what was on the card?", "isBeatby"],
-      ["What was the color in the background of the card?", "background"],
+      ["What beats what was on the card?", "isBeatBy"],
       ["What was the size of the item on the card?", "size"],
+      ["What was the color in the background of the card?", "background"],
     ]
   }
 ]

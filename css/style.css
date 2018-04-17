@@ -33,3 +33,15 @@
 .player-two{
   color: blue;
 }
+
+.card-color-blue{
+  background-color: blue;
+}
+
+.card-color-red{
+  background-color: red;
+}
+
+.card-color-green{
+  background-color: green;
+}

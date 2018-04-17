@@ -37,10 +37,27 @@
 //////////////////////////////////////////////////////
 
 
-
+var game;
 var gameStartListener = $('#one-player-button, #two-players-button').click(function(e){
   var playerCount =  $(this).attr('number');
-  var game = new MemoryGame();
+  game = new MemoryGame();
   game.startGame(playerCount);
+
+  var time = 1000;
+
+  setTimeout(function(){
+    game.flipCardsDown();
+  }, time);
+  
+  setTimeout(function(){
+    game.showAnswerButtons();
+  }, time * 2);
+
+  setTimeout(function(){
+    game.hideAnswerButtons();
+  }, time * 3);
+
+
+
 
 });

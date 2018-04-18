@@ -16,10 +16,11 @@
   <!-- continer for the layout of the page -->
 
 
-
   <div class="container-fluid">
-    <!-- game controller -->
     <div class="row">
+      
+
+      <!-- left bar -->
       <div class="col-md-3 my-5">  <!-- my-5 = margin y axis largest (goes from 0 to 5) -->
         <div class="row">
           <div class="col-md-12">
@@ -27,40 +28,39 @@
             <img class="img-fluid" alt="Game Logo" src="img/rock-paper-scissors-logo.jpg" />
           </div>
         </div>
-        <div class="row">
-          <div class="col-md-12 my-5 instructions-container">  <!-- my-5 = margin y axis largest (goes from 0 to 5) -->
-            <p class="text-center" id="game-instructions">
-              How many players will there be?
-            </p>
+        <!-- game controller -->
+        <div id="game-controller">
+          <div class="row">
+            <div class="col-md-12 my-5 instructions-container">  <!-- my-5 = margin y axis largest (goes from 0 to 5) -->
+              <h3 class="text-center">
+                How many players will there be?
+              </h3>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-2"></div>
+            <div class="col-md-4">
+              <button id="one-player-button" type="button" class="btn btn-success" number="1">1-Player</button>
+            </div>
+            <div class="col-md-4">  
+              <button id="two-players-button" type="button" class="btn btn-success" number="2">2-Players</button>
+            </div>
+            <div class="col-md-2"></div>
           </div>
         </div>
-        <div class="row">
-          <div class="col-md-2">
-          </div>
-          <div class="col-md-4">
-              
-            <button id="one-player-button" type="button" class="btn btn-success" number="1">
-              1-Player
-            </button>
-          </div>
-          <div class="col-md-4">
-              
-            <button id="two-players-button" type="button" class="btn btn-success" number="2">
-              2-Players
-            </button>
-          </div>
-          <div class="col-md-2">
-          </div>
-        </div>
+        <!-- end game controller -->
       </div>
-      <!-- end game controller -->
+      <!-- end left bar -->
+
+
       <!-- question space -->
       <div class="col-md-9 my-5">
         <div class="row">
           <div class="col-md-9">
             <div id="top-question" class="page-header text-center">
-              <h1>
-                Q: <small>This is the question?</small>
+              <h1 id="question">
+                Rock Papers What?
+                <!-- <small id="question"></small> -->
               </h1>
             </div>
           </div>

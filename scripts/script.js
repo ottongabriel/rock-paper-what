@@ -44,18 +44,31 @@ var gameStartListener = $('#one-player-button, #two-players-button').click(funct
   game.startGame(playerCount);
 
   var time = 1000;
-
+  // cards are face up by this point
   setTimeout(function(){
     game.flipCardsDown();
   }, time);
   
   setTimeout(function(){
-    game.showAnswerButtons();
+    game.showQuestion();
   }, time * 2);
 
   setTimeout(function(){
-    game.hideAnswerButtons();
+    game.showAnswerButtons();
   }, time * 3);
+
+  setTimeout(function(){
+    game.handleRightAnswer();
+  }, time * 4);
+
+  setTimeout(function(){
+    game.handleWrongAnswer();
+  }, time * 5);
+
+  setTimeout(function(){
+    game.hideTopText();
+    game.clearAllCards();
+  }, time * 6);
 
 
 

@@ -216,13 +216,19 @@ MemoryGame.prototype.buildAnswerButtons = function(){
     case "isBeatBy":
       html+='   <div class="container center-block">';
       html+='     <div class="row">';
-      html+='       <button type="button" class="btn btn-success my-2 answer-button">rock</button>';
+      html+='       <div class="col-md-12 text-center">'
+      html+='         <button type="button" class="btn btn-success btn-block my-2 answer-button">rock</button>';
+      html+='       </div>'
       html+='     </div>';
       html+='     <div class="row">';
-      html+='       <button type="button" class="btn btn-success my-2 answer-button">paper</button>';
+      html+='       <div class="col-md-12 text-center">'
+      html+='         <button type="button" class="btn btn-success btn-block my-2 answer-button">paper</button>';
+      html+='       </div>'
       html+='     </div>';
       html+='     <div class="row">';
-      html+='       <button type="button" class="btn btn-success my-2 answer-button">scissors</button>';
+      html+='       <div class="col-md-12 text-center">'
+      html+='         <button type="button" class="btn btn-success btn-block my-2 answer-button">scissors</button>';
+      html+='       </div>'
       html+='     </div>';
       html+='   </div>';  
       break;
@@ -230,13 +236,19 @@ MemoryGame.prototype.buildAnswerButtons = function(){
     case "backgroundColor":
       html+='   <div class="container center-block">';
       html+='     <div class="row">';
-      html+='       <button type="button" class="btn btn-success my-2 answer-button">red</button>';
+      html+='       <div class="col-md-12 text-center">'
+      html+='         <button type="button" class="btn btn-success btn-block my-2 answer-button">red</button>';
+      html+='       </div>'
       html+='     </div>';
       html+='     <div class="row">';
-      html+='       <button type="button" class="btn btn-success my-2 answer-button">green</button>';
+      html+='       <div class="col-md-12 text-center">'
+      html+='         <button type="button" class="btn btn-success btn-block my-2 answer-button">green</button>';
+      html+='       </div>'
       html+='     </div>';
       html+='     <div class="row">';
-      html+='       <button type="button" class="btn btn-success my-2 answer-button">blue</button>';
+      html+='       <div class="col-md-12 text-center">'
+      html+='         <button type="button" class="btn btn-success btn-block my-2 answer-button">blue</button>';
+      html+='       </div>'
       html+='     </div>';
       html+='   </div>';  
       break;
@@ -379,15 +391,15 @@ MemoryGame.prototype.handleRightAnswer = function(cardIndex){
 }
 
 MemoryGame.prototype.figureOutIfSomeoneWon = function(){
-  // if the difference in score between player one and player two is greater than 8
-  if(this.playerOnePoints - this.playerTwoPoints >= 8){
+  // if the difference in score between player one and player two is greater than 4
+  if(this.playerOnePoints - this.playerTwoPoints >= 4){
     // set player one as the winner
     this.winner = "Player 1";
     // inform the program that someone has won
     return true;
   }
-  // if the difference in points between player two and player one is greater than 8
-  else if(this.playerTwoPoints - this.playerOnePoints >= 8){
+  // if the difference in points between player two and player one is greater than 4
+  else if(this.playerTwoPoints - this.playerOnePoints >= 4){
     // set player two as the winner
     this.winner = "Player 2"
     // inform the program that someone has won
@@ -488,6 +500,33 @@ MemoryGame.prototype.askAreYouReady = function(){
   $("#game-controller").html(html).fadeIn();
 }
 
+/*
+// give the players the option to start over
+*/
+MemoryGame.prototype.askToPlayAgain = function(){
+
+  var html = "";
+  html +=  '<div class="row">';
+  html +=    '<div class="col-md-12 my-5 instructions-container">';
+  html +=      '<h3 class="text-center">';
+  html +=        'Play Again';
+  html +=      '</h3>';
+  html +=    '</div>';
+  html +=  '</div>';
+  html +=  '<div class="container">'
+  html +=    '<div class="row">'
+  html +=        '<div class="col-sm-4"></div>';
+  html +=        '<div class="col-sm-4">';
+  html +=          '<button id="play-again" type="button" class="btn btn-warning btn-lg">Go!</button>';
+  html +=        '</div>';
+  html +=        '<div class="col-sm-4"></div>';
+  html +=    '</div>';
+  html +=  '</div>';
+
+  $("#game-controller").html(html).fadeIn();
+  activatePayAgainButton();
+}
+
 
 ///////////////////////////////// END controller content handlers /////////////////////////////////
 
@@ -521,7 +560,6 @@ MemoryGame.prototype.startGame = function(players){
 
 /*
 // sets the turn
-// ...
 */ 
 MemoryGame.prototype.setTurn = function(){
   this.numberOfRightClicks = 0;
@@ -550,6 +588,10 @@ MemoryGame.prototype.startTurn = function(){
   }, second * 1);
 }
 
+
+/*
+// wait for the player to answe, start the time limit
+*/
 MemoryGame.prototype.turnWaitForAnswers = function(){
   this.showAnswerButtons();
   activateAnswerButtons();
@@ -575,14 +617,16 @@ MemoryGame.prototype.endTheTurn = function(){
 MemoryGame.prototype.onePlayerGameOver = function(){
   setTimeout(() => {
     // alert("game over\n" + "you scored " + this.playerOnePoints + " points");
-    $("#gameOverModalContent").text("Game over :( " + "you scored " + this.playerOnePoints + " points.    Refresh page to start over");
+    $("#gameOverModalContent").text("Game over :( " + "you scored " + this.playerOnePoints + " points.");
     $("#gameOverModal").modal("show");
+    this.askToPlayAgain();
   }, second * 1);
 }
 
 MemoryGame.prototype.twoPlayerGameOver = function(){
   setTimeout(() => {
-    $("#gameOverModalContent").text(this.winner + " has won the game!!!   Refresh the page to start over");
+    $("#gameOverModalContent").text(this.winner + " has won the game!!!");
     $("#gameOverModal").modal("show");
+    this.askToPlayAgain();
   }, second * 1);
 }

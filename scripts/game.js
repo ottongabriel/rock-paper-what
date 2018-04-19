@@ -1,14 +1,18 @@
+const second = 1000;
+
 var MemoryGame = function(){
   this.numberOfPlayers;
   this.playerOnePoints = 0;
   this.playerTwoPoints = 0;
-  this.currentRound = 0;
+  this.currentRound = 1;
   this.currentPlayersTurn = 1;
   this.currentDeck;
   this.currentCards = [];
   this.currentQuestion = "";
   this.currentCorrectAnswer = "";
   this.numberOfRightClicks = 0;
+  this.isNotOver = true;
+  this.winner;
 }
 
 /*
@@ -41,31 +45,43 @@ MemoryGame.prototype.getFourRandomCards = function () {
 MemoryGame.prototype.setRandomQuestion = function(){
 
   //////////////////// for testing purposes only, we will work with the first question only for now//////////////////
-  this.currentQuestion = this.currentDeck.questions[0][0];
-  console.log('this.currentQuestion: ', this.currentQuestion);
-  this.currentCorrectAnswer = this.currentDeck.questions[0][1]
-  console.log('this.currentCorrectAnswer: ', this.currentCorrectAnswer);
+  // this.currentQuestion = this.currentDeck.questions[3][0];
+  // console.log('this.currentQuestion: ', this.currentQuestion);
+  // this.currentCorrectAnswer = this.currentDeck.questions[3][1]
+  // console.log('this.currentCorrectAnswer: ', this.currentCorrectAnswer);
 
 
 
   //////////////////////// this will be the code to use in the future/////////////////////////////////
-  // var randomQuestionIndex = Math.floor(Math.random() * this.currentDeck.questions.length);
-  // this.currentQuestion = this.currentDeck.questions[randomQuestionIndex][0];
-  // console.log('this.currentQuestion: ', this.currentQuestion);
-  // this.currentCorrectAnswer = this.currentDeck.questions[randomQuestionIndex][1]
+  var randomQuestionIndex = Math.floor(Math.random() * this.currentDeck.questions.length);
+  console.log('randomQuestionIndex: ', randomQuestionIndex);
+  console.log('this.currentDeck.questions.length: ', this.currentDeck.questions.length);
+  this.currentQuestion = this.currentDeck.questions[randomQuestionIndex][0];
+  console.log('this.currentQuestion: ', this.currentQuestion);
+  this.currentCorrectAnswer = this.currentDeck.questions[randomQuestionIndex][1]
 }
 
 
 
 
 
-
+MemoryGame.prototype.togglePlayer = function(){
+  if( Number(this.numberOfPlayers) === 2 ){
+    if(Number(this.currentPlayersTurn) === 1){
+      this.currentPlayersTurn = 2;
+    }
+    else{
+      this.currentPlayersTurn = 1;
+    }
+  }
+}
 
 
 /*
 // Increase Player One Score
 */
 MemoryGame.prototype.increasePlayerOneScore = function(){
+  this.playerOnePoints++;
   var currentScore = $('#player-one-points').text();
   currentScore++;
   $('#player-one-points').text(currentScore);
@@ -75,6 +91,7 @@ MemoryGame.prototype.increasePlayerOneScore = function(){
 // Increase Player Two Score
 */
 MemoryGame.prototype.increasePlayerTwoScore = function(){
+  this.playerTwoPoints++;
   var currentScore = $('#player-two-points').text();
   currentScore++;
   $('#player-two-points').text(currentScore);
@@ -119,6 +136,10 @@ MemoryGame.prototype.flipCardsUp = function(){
     // fill the card
     $(cardsToFlip[i]).html(cardFrontContent);
   }
+  // cardsToFlip.hide();
+  // cardsToFlip.fadeIn("linear");
+  cardsToFlip.hide();
+  cardsToFlip.slideDown();
 }
     
     
@@ -139,6 +160,8 @@ MemoryGame.prototype.flipCardsDown = function(){
     // to empty the card
     $(cardsToFlip[i]).html(cardBackContent);
   }
+  cardsToFlip.hide();
+  cardsToFlip.slideDown();
 }
 
 
@@ -202,6 +225,8 @@ MemoryGame.prototype.showAnswerButtons = function(){
     // fill the card
     $(cards[i]).html(answerButtonsHtml);
   }
+  $(".answer-button").hide();
+  $(".answer-button").fadeIn();
 }
 
 /*
@@ -256,6 +281,32 @@ MemoryGame.prototype.handleWrongAnswer = function(){
   $(".answer-button").toggleClass("btn-success btn-danger");
   // say you got it wrong
   this.sayYouGotItWrong();
+
+  console.log('this.numberOfPlayers: ', this.numberOfPlayers);
+  // if there is only one Player
+  if(Number(this.numberOfPlayers) === 1){
+    // the game is over
+    this.onePlayerGameOver();
+  }
+  // if there are two players
+  else{
+    // figure out if someone has won
+    var someoneHasWon = this.figureOutIfSomeoneWon();
+    // if someone has
+    if(someoneHasWon){
+      // game is over
+      this.twoPlayerGameOver();
+    }
+    // if no one has won yet
+    else{
+      // wait a second and end the turn 
+      setTimeout(() => {
+        this.endTheTurn();
+      }, second * 1);
+      
+    }
+  }
+
 }
 
 MemoryGame.prototype.handleRightAnswer = function(cardIndex){
@@ -273,7 +324,37 @@ MemoryGame.prototype.handleRightAnswer = function(cardIndex){
       console.log("something went wrong in the handle right answer function");
       break;
   }
+  this.numberOfRightClicks++;
+  if(this.numberOfRightClicks >= 4){
+    this.sayYouGotThemAllRight();
+    this.endTheTurn();
+  }
 }
+
+MemoryGame.prototype.figureOutIfSomeoneWon = function(){
+  // if the difference in score between player one and player two is greater than 8
+  if(this.playerOnePoints - this.playerTwoPoints >= 8){
+    // set player one as the winner
+    this.winner = "Player 1";
+    // inform the program that someone has won
+    return true;
+  }
+  // if the difference in points between player two and player one is greater than 8
+  else if(this.playerTwoPoints - this.playerOnePoints >= 8){
+    // set player two as the winner
+    this.winner = "Player 2"
+    // inform the program that someone has won
+    return true;
+  }
+  // no one has won
+  else{
+    // inform the program
+    return false;
+  }
+}
+
+
+
 
 
 ///////////////////////////////// top header text handlers /////////////////////////////////
@@ -281,28 +362,32 @@ MemoryGame.prototype.handleRightAnswer = function(cardIndex){
 // display question on top
 */
 MemoryGame.prototype.sayQuestion = function(){
-  $("#question").text("Q: " + this.currentQuestion);
+  $("#question").text("Q: " + this.currentQuestion).hide();
+  $("#question").fadeIn();
 }
 
 /*
 // hides top text
 */
 MemoryGame.prototype.sayNothing = function(){
-  $("#question").text("");
+  $("#question").fadeOut();
+  // $("#question").text("");
 }
 
 /*
 // You got it wrong 
 */
 MemoryGame.prototype.sayYouGotItWrong = function(){
-  $("#question").text("You got it wrong X_x");
+  $("#question").text("You got it wrong X_x").hide();
+  $("#question").fadeIn();
 }
 
 /*
 // Celebration for getting them all right
 */
 MemoryGame.prototype.sayYouGotThemAllRight = function(){
-  $("#question").text("You got them all RIGHT :D");
+  $("#question").text("You got them all right!!! :D").hide();
+  $("#question").fadeIn();
 }
 ///////////////////////////////// END top header text handlers /////////////////////////////////
 
@@ -314,7 +399,7 @@ MemoryGame.prototype.sayYouGotThemAllRight = function(){
 // clears the controller div while there are no options to be selected by players
 */
 MemoryGame.prototype.clearController = function(){
-  $("#game-controller").html("");
+  $("#game-controller").html("").hide();
 }
 
 /*
@@ -339,13 +424,11 @@ MemoryGame.prototype.askAreYouReady = function(){
   html +=        '</div>';
   html +=    '</div>';
 
-  $("#game-controller").html(html);
+  $("#game-controller").html(html).fadeIn();
 }
 
 
 ///////////////////////////////// END controller content handlers /////////////////////////////////
-
-
 
 
 
@@ -361,42 +444,54 @@ MemoryGame.prototype.askAreYouReady = function(){
 */
 MemoryGame.prototype.startGame = function(players){
   this.clearController();
-  this.hideTopText();
+  this.sayNothing();
   this.numberOfPlayers = players;
-  // console.log('this.numberOfPlayers: ', this.numberOfPlayers);
-  this.setTurn();
-  this.flipCardsUp();
-  // this.flipCardsDown();
-
-
+  game.setTurn();
 }
-
-
-
 
 /*
 // sets the turn
-// selects a deck
-// selects 4 random cards from within that deck
 // ...
 */ 
 MemoryGame.prototype.setTurn = function(){
+  this.numberOfRightClicks = 0;
   this.setDeck();
   this.setRandomQuestion();
   this.getFourRandomCards();
-
+  this.askAreYouReady();
+  activateReadyButton();
 }
 
+MemoryGame.prototype.startTurn = function(){
+  this.sayNothing();
+  this.clearController();
+  setTimeout(() => {
+    this.flipCardsUp();
+    setTimeout(() => {
+      this.flipCardsDown();
+      setTimeout(() => {
+        this.sayQuestion();
+        setTimeout(() => {
+          this.turnWaitForAnswers();
+        }, second * 1);
+      }, second * 1);
+    }, second * 2);
+  }, second * 1);
+}
 
+MemoryGame.prototype.turnWaitForAnswers = function(){
+  this.showAnswerButtons();
+  activateAnswerButtons();
+}
 
 
 /*
 // Ends the turn
 */
 MemoryGame.prototype.endTheTurn = function(){
-  this.sayNothing();
   this.clearAllCards();
-  this.clearController();
+  this.togglePlayer();
+  this.setTurn();
 }
 
 
@@ -406,6 +501,16 @@ MemoryGame.prototype.endTheTurn = function(){
 
 
 MemoryGame.prototype.onePlayerGameOver = function(){
-  console.log("game over");
-  console.log("you scored " + this.playerOnePoints + " points");
+  setTimeout(() => {
+    // alert("game over\n" + "you scored " + this.playerOnePoints + " points");
+    $("#gameOverModalContent").text("Game over :( " + "you scored " + this.playerOnePoints + " points.    Refresh page to start over");
+    $("#gameOverModal").modal("show");
+  }, second * 1);
+}
+
+MemoryGame.prototype.twoPlayerGameOver = function(){
+  setTimeout(() => {
+    $("#gameOverModalContent").text(this.winner + " has won the game!!!   Refresh the page to start over");
+    $("#gameOverModal").modal("show");
+  }, second * 1);
 }

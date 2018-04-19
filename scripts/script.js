@@ -36,6 +36,10 @@
 // DEALING WITH TIMEOUTS^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 //////////////////////////////////////////////////////
 
+$( window ).on( "load", function() {
+  $('#instructionsModal').modal('show');
+})
+
 
 var game;
 var gameStartListener = $('#one-player-button, #two-players-button').click(function(e){
@@ -43,34 +47,44 @@ var gameStartListener = $('#one-player-button, #two-players-button').click(funct
   game = new MemoryGame();
   game.startGame(playerCount);
 
-  var time = 1000;
-  // cards are face up by this point
-  setTimeout(function(){
-    game.flipCardsDown();
-  }, time);
+
+
+
+
+
+
+
+
+
+  // var time = 1000;
+  // // cards are face up by this point
+  // setTimeout(function(){
+  //   game.flipCardsDown();
+  // }, time);
   
-  setTimeout(function(){
-    game.showQuestion();
-  }, time * 2);
+  // setTimeout(function(){
+  //   game.sayQuestion();
+  // }, time * 2);
 
-  setTimeout(function(){
-    game.showAnswerButtons();
-  }, time * 3);
+  // setTimeout(function(){
+  //   game.showAnswerButtons();
+  // }, time * 3);
 
-  setTimeout(function(){
-    game.handleRightAnswer();
-  }, time * 4);
+  // setTimeout(function(){
+  //   game.handleRightAnswer();
+  // }, time * 4);
 
-  setTimeout(function(){
-    game.handleWrongAnswer();
-  }, time * 5);
+  // setTimeout(function(){
+  //   game.handleWrongAnswer();
+  // }, time * 5);
 
-  setTimeout(function(){
-    game.hideTopText();
-    game.clearAllCards();
-  }, time * 6);
-
+  // setTimeout(function(){
+  //   game.sayNothing();
+  //   game.clearAllCards();
+  // }, time * 6);
 
 
 
 });
+
+

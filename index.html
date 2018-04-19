@@ -96,16 +96,16 @@
               <div class="col-md-2">
               </div>
               <div class="col-md-4">
-                 <!-- card 1 -->
-                <div id="card1" class="btn btn-secondary game-card" card-number="1">
+                 <!-- card 0 -->
+                <div id="card0" class="btn btn-secondary game-card" card-number="0">
 
                 </div>
               </div>
               <div class="col-md-1">
               </div>
               <div class="col-md-4">
-                 <!-- card 2 -->
-                <div id="card2" class="btn btn-secondary game-card" card-number="2">
+                 <!-- card 1 -->
+                <div id="card1" class="btn btn-secondary game-card" card-number="1">
                   
                 </div>
               </div>
@@ -118,16 +118,16 @@
               <div class="col-md-2">
               </div>
               <div class="col-md-4">
-                 <!-- card 3 -->
-                <div id="card3" class="btn btn-secondary game-card" card-number="3">
+                 <!-- card 2 -->
+                <div id="card2" class="btn btn-secondary game-card" card-number="2">
                   
                 </div>
               </div>
               <div class="col-md-1">
               </div>
               <div class="col-md-4">
-                 <!-- card 4 -->
-                <div id="card4" class="btn btn-secondary game-card" card-number="4">
+                 <!-- card 3 -->
+                <div id="card3" class="btn btn-secondary game-card" card-number="3">
                   
                 </div>
               </div>
@@ -150,13 +150,58 @@
 
 
 
+  <!-- Instructions Modal -->
+<div class="modal fade" id="instructionsModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="instructionsModalTitle">Instructions</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          Look at the cards shown and memorize their contents
+          Then answer the question that appears on top
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+    <!-- Game Over Modal -->
+<div class="modal fade" id="gameOverModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="gameOverModalTitle">Game Over</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div id="gameOverModalContent" class="modal-body">
+          <!-- to be filled up by javascrip -->
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
   <!-- jQuery -->
   <script src="scripts/jquery-3.3.1.js"></script>
   <!-- bootstrap -->
-  <script src="scripts/bootstrap.min.js"></script>
+  <script src="scripts/bootstrap.bundle.min.js"></script>
 
   <!-- javascript for the project -->
   <script type="text/javascript" src="scripts/decks.js"></script>
+  <script type="text/javascript" src="scripts/buton-activators.js"></script>
   <script type="text/javascript" src="scripts/game.js"></script>
   <script type="text/javascript" src="scripts/script.js"></script>
 </body>

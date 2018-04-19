@@ -38,18 +38,14 @@ MemoryGame.prototype.getFourRandomCards = function () {
     // var card = this.currentDeck.cards[randomCardIndex]; ///original
     var card = {};
     card = Object.assign({}, this.currentDeck.cards[randomCardIndex]); 
-    console.log('card: ', card);
-    
+    if(this.currentRound > 4){
+      var randomColor = this.getRandomColor();
+      card["backgroundColor"] = randomColor;
+    }
     // console.log('card: ', card);
-    var randomColor = this.getRandomColor();
-    // console.log('randomColor: ', randomColor);
-    card["backgroundColor"] = randomColor;
-    // console.log('card["backgroundColor"] : ', card["backgroundColor"] );
     card["answer"] = card[this.currentCorrectAnswer];
-    // console.log('card: ', card);
     this.currentCards.push(card);
   }
-  console.log('this.currentCards: ', this.currentCards);
   return this.currentCards;
 }
 
@@ -59,7 +55,7 @@ MemoryGame.prototype.getFourRandomCards = function () {
 MemoryGame.prototype.getRandomColor = function(){
   var randomColorIndex = Math.floor(Math.random() * this.currentDeck.colors.length);
   var randomColor = this.currentDeck.colors[randomColorIndex];
-  console.log('randomColor: ', randomColor);
+  // console.log('randomColor: ', randomColor);
   return randomColor;
 }
 
@@ -462,11 +458,20 @@ MemoryGame.prototype.clearController = function(){
 // Asks the next player if they are ready
 */
 MemoryGame.prototype.askAreYouReady = function(){
+  var currentPlayer = "";
+
+  if (this.currentPlayersTurn == 1){
+    currentPlayer = "player-one";
+  }
+  else{
+    currentPlayer = "player-two";
+  }
+
   var html = "";
   html +=    '<div class="row">';
   html +=      '<div class="col-md-12 my-5 instructions-container">';
   html +=        '<h3 class="text-center">';
-  html +=          'Are you ready Player ' + this.currentPlayersTurn;
+  html +=          'Are you ready <span class="' + currentPlayer + '"> Player ' + this.currentPlayersTurn + "</span>";
   html +=        '</h3>';
   html +=      '</div>';
   html +=    '</div>';

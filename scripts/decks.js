@@ -7,6 +7,7 @@ var decks = [
     cards: [
       {
         cardName: 'rock',
+        backgroundColor: 'red',
         image: 'img/rock.png',
         beats: 'scissors',
         isBeatBy: 'paper',
@@ -14,6 +15,7 @@ var decks = [
       },
       {
         cardName: 'paper',
+        backgroundColor: 'blue',
         image: 'img/paper.png',
         beats: 'rock',
         isBeatBy: 'scissors',
@@ -21,6 +23,7 @@ var decks = [
       },
       {
         cardName: 'scissors',
+        backgroundColor: 'green',
         image: 'img/scissors.png',
         beats: 'paper',
         isBeatBy: 'rock',

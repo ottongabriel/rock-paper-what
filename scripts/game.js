@@ -34,13 +34,32 @@ MemoryGame.prototype.getFourRandomCards = function () {
   this.currentCards = [];
   for(var i = 0; i < 4; i++){
     var randomCardIndex = Math.floor(Math.random() * this.currentDeck.cards.length);
-    var card = this.currentDeck.cards[randomCardIndex];
+
+    var card = this.currentDeck.cards[randomCardIndex]; ///original
+    // var card = this.currentDeck.cards.slice(randomCardIndex,randomCardIndex +1); ///work in progress
+    // console.log('card: ', card);
+    var randomColor = this.getRandomColor();
+    // console.log('randomColor: ', randomColor);
+    card["backgroundColor"] = randomColor;
+    // console.log('card["backgroundColor"] : ', card["backgroundColor"] );
     card["answer"] = card[this.currentCorrectAnswer];
+    // console.log('card: ', card);
     this.currentCards.push(card);
   }
-
-  // if(this.currentRound)/////////////////////////////////////////////////////////////////////////
+  console.log('this.currentCards: ', this.currentCards);
+  return this.currentCards;
 }
+
+/*
+// Returns a random color to be used in the get 4 random cards color
+*/
+MemoryGame.prototype.getRandomColor = function(){
+  var randomColorIndex = Math.floor(Math.random() * this.currentDeck.colors.length);
+  var randomColor = this.currentDeck.colors[randomColorIndex];
+  console.log('randomColor: ', randomColor);
+  return randomColor;
+}
+
 
 MemoryGame.prototype.setRandomQuestion = function(){
 

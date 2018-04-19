@@ -11,7 +11,6 @@ var decks = [
         beats: 'scissors',
         isBeatBy: 'paper',
         size: 'medium',
-        backgroundColor: 'red',
       },
       {
         cardName: 'paper',
@@ -19,7 +18,6 @@ var decks = [
         beats: 'rock',
         isBeatBy: 'scissors',
         size: 'medium',
-        backgroundColor: 'blue',
       },
       {
         cardName: 'scissors',
@@ -27,7 +25,6 @@ var decks = [
         beats: 'paper',
         isBeatBy: 'rock',
         size: 'medium',
-        backgroundColor: 'green',
       }
     ],
     questions: [
@@ -36,7 +33,10 @@ var decks = [
       ["What beats what was on the card?", "isBeatBy"],
       ["What was the color in the background of the card?", "backgroundColor"],
       // ["What was the size of the item on the card?", "size"], // this has not been implemented yet
-    ]
+    ],
+    colors: [
+      "red", "green", "blue"
+    ],
   }
 ]
 

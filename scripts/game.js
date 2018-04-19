@@ -35,8 +35,11 @@ MemoryGame.prototype.getFourRandomCards = function () {
   for(var i = 0; i < 4; i++){
     var randomCardIndex = Math.floor(Math.random() * this.currentDeck.cards.length);
 
-    var card = this.currentDeck.cards[randomCardIndex]; ///original
-    // var card = this.currentDeck.cards.slice(randomCardIndex,randomCardIndex +1); ///work in progress
+    // var card = this.currentDeck.cards[randomCardIndex]; ///original
+    var card = {};
+    card = Object.assign({}, this.currentDeck.cards[randomCardIndex]); 
+    console.log('card: ', card);
+    
     // console.log('card: ', card);
     var randomColor = this.getRandomColor();
     // console.log('randomColor: ', randomColor);

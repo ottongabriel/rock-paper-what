@@ -14,6 +14,7 @@ var MemoryGame = function(){
   this.isNotOver = true;
   this.winner;
   this.countDown;
+  this.currentTimeLimit = 15;
 }
 
 /*
@@ -88,6 +89,7 @@ MemoryGame.prototype.togglePlayer = function(){
     else{
       this.currentPlayersTurn = 1;
       this.currentRound++;
+      this.decreaseTimer();
     }
   }
   else{
@@ -130,9 +132,7 @@ MemoryGame.prototype.updateTimer = function(secondsLeft){
 */
 MemoryGame.prototype.startTimeLimit = function(){
 
-  totalSeconds = 10;
-
-  var currentSeconds = totalSeconds;
+  var currentSeconds = this.currentTimeLimit;
 
 
   this.countDown = window.setInterval(() => {
@@ -494,6 +494,15 @@ MemoryGame.prototype.askAreYouReady = function(){
 
 
 
+
+/*
+// decrases the time available to players if the game has gone for too long
+*/
+MemoryGame.prototype.decreaseTimer = function(){
+  if(this.currentRound > 5 && this.currentRound < 15){
+    this.currentTimeLimit--;
+  }
+}
 
 
 

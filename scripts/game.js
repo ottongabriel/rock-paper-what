@@ -13,6 +13,7 @@ var MemoryGame = function(){
   this.numberOfRightClicks = 0;
   this.isNotOver = true;
   this.winner;
+  this.countDown;
 }
 
 /*
@@ -72,6 +73,7 @@ MemoryGame.prototype.togglePlayer = function(){
     }
     else{
       this.currentPlayersTurn = 1;
+      this.currentRound++;
     }
   }
 }
@@ -103,6 +105,30 @@ MemoryGame.prototype.increasePlayerTwoScore = function(){
 MemoryGame.prototype.updateTimer = function(secondsLeft){
   $('#timer-display').text(secondsLeft);
 }
+
+
+/*
+// Handle time limits
+*/
+MemoryGame.prototype.startTimeLimit = function(){
+
+  totalSeconds = 3;
+
+  var currentSeconds = totalSeconds;
+
+
+  this.countDown = window.setInterval(() => {
+    this.updateTimer(currentSeconds);
+    console.log('currentSeconds: ', currentSeconds);
+    currentSeconds--;
+    
+    if(currentSeconds < 0){
+      window.clearInterval(this.countDown);
+      this.handleWrongAnswer("time is up");
+    }
+  }, second);
+}
+
 
 
 /*
@@ -272,15 +298,23 @@ MemoryGame.prototype.isItTheRightAnswer = function(answerGiven, cardIndex) {
     this.handleRightAnswer(cardIndex);
   }
   else{
-    this.handleWrongAnswer();
+    this.handleWrongAnswer("wrong answer");
   }
 }
 
-MemoryGame.prototype.handleWrongAnswer = function(){
+MemoryGame.prototype.handleWrongAnswer = function(situation){
   // turn all of the answer buttons red
   $(".answer-button").toggleClass("btn-success btn-danger");
-  // say you got it wrong
-  this.sayYouGotItWrong();
+  
+  // handle if the player clicked on the wrong answer or ran out of time
+  if(situation === "wrong answer"){
+    // say you got it wrong
+    this.sayYouGotItWrong();
+    window.clearInterval(this.countDown);
+  }
+  if(situation === "time is up"){
+    this.sayTimeIsUp();
+  }
 
   console.log('this.numberOfPlayers: ', this.numberOfPlayers);
   // if there is only one Player
@@ -382,6 +416,11 @@ MemoryGame.prototype.sayYouGotItWrong = function(){
   $("#question").fadeIn();
 }
 
+MemoryGame.prototype.sayTimeIsUp = function(){
+  $("#question").text("Time's up x_X").hide();
+  $("#question").fadeIn();
+}
+
 /*
 // Celebration for getting them all right
 */
@@ -463,6 +502,7 @@ MemoryGame.prototype.setTurn = function(){
 }
 
 MemoryGame.prototype.startTurn = function(){
+  this.updateTimer("0");
   this.sayNothing();
   this.clearController();
   setTimeout(() => {
@@ -482,6 +522,7 @@ MemoryGame.prototype.startTurn = function(){
 MemoryGame.prototype.turnWaitForAnswers = function(){
   this.showAnswerButtons();
   activateAnswerButtons();
+  this.startTimeLimit();
 }
 
 

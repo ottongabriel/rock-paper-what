@@ -45,3 +45,7 @@
 .card-color-green{
   background-color: green;
 }
+
+#game-mat{
+  min-height: 80vh;
+}

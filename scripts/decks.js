@@ -34,7 +34,7 @@ var decks = [
       ["What was on the card?", "cardName"],
       ["What does the item on the card beat?", "beats"],
       ["What beats what was on the card?", "isBeatBy"],
-      ["What was the color in the background of the card?", "backgroundColor"],
+      ["What was the color of the card?", "backgroundColor"],
       // ["What was the size of the item on the card?", "size"], // this has not been implemented yet
     ],
     colors: [

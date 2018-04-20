@@ -36,14 +36,13 @@ MemoryGame.prototype.getFourRandomCards = function () {
   for(var i = 0; i < 4; i++){
     var randomCardIndex = Math.floor(Math.random() * this.currentDeck.cards.length);
 
-    // var card = this.currentDeck.cards[randomCardIndex]; ///original
+    // var card = this.currentDeck.cards[randomCardIndex]; ///original/didn't work because objects are assigned by reference in JS
     var card = {};
-    card = Object.assign({}, this.currentDeck.cards[randomCardIndex]); 
+    card = Object.assign({}, this.currentDeck.cards[randomCardIndex]); ///new one/assigning object by value
     if(this.currentRound > 1){
       var randomColor = this.getRandomColor();
       card["backgroundColor"] = randomColor;
     }
-    // console.log('card: ', card);
     card["answer"] = card[this.currentCorrectAnswer];
     this.currentCards.push(card);
   }
@@ -56,22 +55,22 @@ MemoryGame.prototype.getFourRandomCards = function () {
 MemoryGame.prototype.getRandomColor = function(){
   var randomColorIndex = Math.floor(Math.random() * this.currentDeck.colors.length);
   var randomColor = this.currentDeck.colors[randomColorIndex];
-  // console.log('randomColor: ', randomColor);
   return randomColor;
 }
 
-
+/*
+// Chooses a random question from the current deck being used
+*/
 MemoryGame.prototype.setRandomQuestion = function(){
 
-  //////////////////// for testing purposes only, we will work with the first question only for now//////////////////
+  //////////////////// testing version, to hard code a question //////////////////
   // this.currentQuestion = this.currentDeck.questions[3][0];
   // console.log('this.currentQuestion: ', this.currentQuestion);
   // this.currentCorrectAnswer = this.currentDeck.questions[3][1]
   // console.log('this.currentCorrectAnswer: ', this.currentCorrectAnswer);
 
 
-
-  //////////////////////// this will be the code to use in the future/////////////////////////////////
+  //////////////////////// working version//actually randomizes the question /////////////////////////////////
   var randomQuestionIndex = Math.floor(Math.random() * this.currentDeck.questions.length);
   this.currentQuestion = this.currentDeck.questions[randomQuestionIndex][0];
   this.currentCorrectAnswer = this.currentDeck.questions[randomQuestionIndex][1]
@@ -79,8 +78,10 @@ MemoryGame.prototype.setRandomQuestion = function(){
 
 
 
-
-
+/*
+// Changes whose player turn it currently is
+// it also increases the round when both players have gone
+*/
 MemoryGame.prototype.togglePlayer = function(){
   if( Number(this.numberOfPlayers) === 2 ){
     if(Number(this.currentPlayersTurn) === 1){
@@ -89,13 +90,12 @@ MemoryGame.prototype.togglePlayer = function(){
     else{
       this.currentPlayersTurn = 1;
       this.currentRound++;
-      this.decreaseTimer();
+      this.decreaseTimeLimit();
     }
   }
   else{
     this.currentRound++;
   }
-  console.log('this.currentRound: ', this.currentRound);
 }
 
 
@@ -104,8 +104,6 @@ MemoryGame.prototype.togglePlayer = function(){
 */
 MemoryGame.prototype.increasePlayerOneScore = function(){
   this.playerOnePoints++;
-  // var currentScore = $('#player-one-points').text();
-  // currentScore++;
   $('#player-one-points').text(this.playerOnePoints);
 }
 
@@ -114,11 +112,12 @@ MemoryGame.prototype.increasePlayerOneScore = function(){
 */
 MemoryGame.prototype.increasePlayerTwoScore = function(){
   this.playerTwoPoints++;
-  // var currentScore = $('#player-two-points').text();
-  // currentScore++;
   $('#player-two-points').text(this.playerTwoPoints);
 }
 
+/*
+// Resets player scores to zero
+*/
 MemoryGame.prototype.resetPlayerPoints = function(){
   this.playerOnePoints = 0;
   this.playerTwoPoints = 0;
@@ -153,10 +152,21 @@ MemoryGame.prototype.startTimeLimit = function(){
   }, second);
 }
 
+/*
+// Decrases the time each player will have on their next turn if the game takes too long
+// The adjustment is based on the round, so each player will have the same ammount of time once
+*/
+MemoryGame.prototype.decreaseTimeLimit = function(){
+  if(this.currentRound > 1 && this.currentRound < 8){
+    this.currentTimeLimit -= 2;
+  }
+}
+
+
 
 
 /*
-// builds the front of the card's html
+// Builds the front of the card's html
 // takes index on one of the current cards
 */ 
 MemoryGame.prototype.buildFrontCardHtml = function(index){
@@ -168,7 +178,7 @@ MemoryGame.prototype.buildFrontCardHtml = function(index){
 
 
 /*
-// flips the cards up
+// Flips the cards up
 // goes through the current cards array and makes the changes to the html to make the cads show their content
 */
 MemoryGame.prototype.flipCardsUp = function(){
@@ -184,15 +194,14 @@ MemoryGame.prototype.flipCardsUp = function(){
     // fill the card
     $(cardsToFlip[i]).html(cardFrontContent);
   }
-  // cardsToFlip.hide();
-  // cardsToFlip.fadeIn("linear");
+  // effects
   cardsToFlip.hide();
   cardsToFlip.slideDown();
 }
     
     
 /*
-// flips cards down
+// Flips cards down
 */
 MemoryGame.prototype.flipCardsDown = function(){
   var cardsToFlip = $(".game-card");
@@ -200,13 +209,14 @@ MemoryGame.prototype.flipCardsDown = function(){
   for(var i = 0; i < cardsToFlip.length; i++){
     // goes through each card and gets the background color within their properties
     var cardBackgroundColor = this.currentCards[i].backgroundColor;
-    // tha is necessary to unset it here
+    // that is necessary to unset it here
     $(cardsToFlip[i]).toggleClass("btn-secondary card-color-" + cardBackgroundColor);
     // create an empty string
     var cardBackContent = "";
     // to empty the card
     $(cardsToFlip[i]).html(cardBackContent);
   }
+  // effects
   cardsToFlip.hide();
   cardsToFlip.slideDown();
 }
@@ -288,7 +298,7 @@ MemoryGame.prototype.showAnswerButtons = function(){
 }
 
 /*
-// marks the clicked card as being answered correctly
+// Marks the clicked card as being answered correctly
 // takes the index of the card to mark as correct
 */
 MemoryGame.prototype.markAsCorrect = function(index){
@@ -299,7 +309,7 @@ MemoryGame.prototype.markAsCorrect = function(index){
 
 
 /*
-// hide the answer buttons from one card
+// Hide the answer buttons from one card
 // takes the index of the card whose buttons need to be removed
 */
 MemoryGame.prototype.hideAnswerButton = function(index){
@@ -334,17 +344,23 @@ MemoryGame.prototype.isItTheRightAnswer = function(answerGiven, cardIndex) {
   }
 }
 
+/*
+// Handles a player choosing the wrong answer or running out of time
+*/
 MemoryGame.prototype.handleWrongAnswer = function(situation){
   // turn all of the answer buttons red
   $(".answer-button").toggleClass("btn-success btn-danger");
+  $(".answer-button").off();
   
-  // handle if the player clicked on the wrong answer or ran out of time
+  // if the player clicked on the wrong answer
   if(situation === "wrong answer"){
     // say you got it wrong
     this.sayYouGotItWrong();
     window.clearInterval(this.countDown);
   }
+  // if the player took too long
   if(situation === "time is up"){
+    // ray you ran ou of time
     this.sayTimeIsUp();
   }
 
@@ -368,12 +384,13 @@ MemoryGame.prototype.handleWrongAnswer = function(situation){
       setTimeout(() => {
         this.endTheTurn();
       }, second * 1);
-      
     }
   }
-
 }
 
+/*
+// Handles each time that a player clicks on a correck answer
+*/
 MemoryGame.prototype.handleRightAnswer = function(cardIndex){
   this.markAsCorrect(cardIndex);
   switch(this.currentPlayersTurn){
@@ -397,6 +414,13 @@ MemoryGame.prototype.handleRightAnswer = function(cardIndex){
   }
 }
 
+
+/*
+// Checks if someone has won a two player game
+// if someone has won, it sets them as the winner
+// then returns true
+// if no one has won, returns false
+*/
 MemoryGame.prototype.figureOutIfSomeoneWon = function(){
   // if the difference in score between player one and player two is greater than 4
   if(this.playerOnePoints - this.playerTwoPoints >= 4){
@@ -448,6 +472,9 @@ MemoryGame.prototype.sayYouGotItWrong = function(){
   $("#question").fadeIn();
 }
 
+/*
+// You ran out of time
+*/
 MemoryGame.prototype.sayTimeIsUp = function(){
   $("#question").text("Time's up x_X").hide();
   $("#question").fadeIn();
@@ -534,6 +561,9 @@ MemoryGame.prototype.askToPlayAgain = function(){
   activatePayAgainButton();
 }
 
+/*
+// Asks how many players there will be in the game
+*/
 MemoryGame.prototype.askHowManyPlayers = function(){
   var html = "";
 
@@ -575,18 +605,6 @@ MemoryGame.prototype.askHowManyPlayers = function(){
 
 
 
-/*
-// decrases the time available to players if the game has gone for too long
-*/
-MemoryGame.prototype.decreaseTimer = function(){
-  if(this.currentRound > 1 && this.currentRound < 8){
-    this.currentTimeLimit -= 2;
-  }
-}
-
-
-
-
 
 
 /*
@@ -611,6 +629,11 @@ MemoryGame.prototype.setTurn = function(){
   activateReadyButton();
 }
 
+/*
+// After the player has declared that they are ready
+// this handles showing to them the cards, hiding them,
+// and starts the wait for the player to answer
+*/
 MemoryGame.prototype.startTurn = function(){
   this.updateTimer("0");
   this.sayNothing();
@@ -631,7 +654,7 @@ MemoryGame.prototype.startTurn = function(){
 
 
 /*
-// wait for the player to answe, start the time limit
+// wait for the player to answer, start the time limit
 */
 MemoryGame.prototype.turnWaitForAnswers = function(){
   this.showAnswerButtons();
@@ -650,11 +673,9 @@ MemoryGame.prototype.endTheTurn = function(){
 }
 
 
-
-
-
-
-
+/*
+// Handles finishing the game for one player
+*/
 MemoryGame.prototype.onePlayerGameOver = function(){
   setTimeout(() => {
     // alert("game over\n" + "you scored " + this.playerOnePoints + " points");
@@ -664,6 +685,9 @@ MemoryGame.prototype.onePlayerGameOver = function(){
   }, second * 1);
 }
 
+/*
+// Handles finishing the game for two players
+*/
 MemoryGame.prototype.twoPlayerGameOver = function(){
   setTimeout(() => {
     $("#gameOverModalContent").text(this.winner + " has won the game!!!");

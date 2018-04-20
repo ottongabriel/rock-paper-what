@@ -587,7 +587,7 @@ MemoryGame.prototype.askHowManyPlayers = function(){
   html += '  </div>';
   html += '  <div class="row">';
   html += '      <div class="col-md-12 text-center my-4">';
-  html += '          <button id="toggle-rules" type="button" class="btn btn-info" number="1">Rules</button>';
+  html += '          <button id="show-rules" type="button" class="btn btn-info" number="1">Rules</button>';
   html += '      </div>';
   html += '  </div>';
   html += '</div>';

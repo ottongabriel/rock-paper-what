@@ -14,7 +14,7 @@ function activateNewGameButton(){
 */
 function activateRulesButton(){
   $("#show-rules").on("click", function(){
-    $('#instructionsModal').modal('show')
+    $('#instructionsModal').modal('show');
   })
 }
 
@@ -41,8 +41,8 @@ function activatePayAgainButton(){
     game.clearAllCards();
     game.resetPlayerPoints();
     game.updateTimer(0);
-    activateRulesButton();
     activateNewGameButton();
+    activateRulesButton();
   })
 }
 

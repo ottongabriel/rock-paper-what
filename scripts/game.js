@@ -14,7 +14,7 @@ var MemoryGame = function(){
   this.isNotOver = true;
   this.winner;
   this.countDown;
-  this.currentTimeLimit = 15;
+  this.currentTimeLimit = 20;
 }
 
 /*
@@ -39,7 +39,7 @@ MemoryGame.prototype.getFourRandomCards = function () {
     // var card = this.currentDeck.cards[randomCardIndex]; ///original
     var card = {};
     card = Object.assign({}, this.currentDeck.cards[randomCardIndex]); 
-    if(this.currentRound > 4){
+    if(this.currentRound > 1){
       var randomColor = this.getRandomColor();
       card["backgroundColor"] = randomColor;
     }
@@ -104,9 +104,9 @@ MemoryGame.prototype.togglePlayer = function(){
 */
 MemoryGame.prototype.increasePlayerOneScore = function(){
   this.playerOnePoints++;
-  var currentScore = $('#player-one-points').text();
-  currentScore++;
-  $('#player-one-points').text(currentScore);
+  // var currentScore = $('#player-one-points').text();
+  // currentScore++;
+  $('#player-one-points').text(this.playerOnePoints);
 }
 
 /*
@@ -114,9 +114,16 @@ MemoryGame.prototype.increasePlayerOneScore = function(){
 */
 MemoryGame.prototype.increasePlayerTwoScore = function(){
   this.playerTwoPoints++;
-  var currentScore = $('#player-two-points').text();
-  currentScore++;
-  $('#player-two-points').text(currentScore);
+  // var currentScore = $('#player-two-points').text();
+  // currentScore++;
+  $('#player-two-points').text(this.playerTwoPoints);
+}
+
+MemoryGame.prototype.resetPlayerPoints = function(){
+  this.playerOnePoints = 0;
+  this.playerTwoPoints = 0;
+  $('#player-one-points').text(this.playerOnePoints);
+  $('#player-two-points').text(this.playerTwoPoints);
 }
 
 /*
@@ -527,6 +534,40 @@ MemoryGame.prototype.askToPlayAgain = function(){
   activatePayAgainButton();
 }
 
+MemoryGame.prototype.askHowManyPlayers = function(){
+  var html = "";
+
+  html += '<div id="game-controller">';
+  html += '  <div class="row">';
+  html += '    <div class="col-md-12 my-5 instructions-container">';
+  html += '      <h3 class="text-center">';
+  html += '        How many players will there be?';
+  html += '      </h3>';
+  html += '    </div>';
+  html += '  </div>';
+  html += '  <div class="row">';
+  html += '    <div class="col-md-2"></div>';
+  html += '    <div class="col-md-4">';
+  html += '      <button id="one-player-button" type="button" class="btn btn-success" number="1">1-Player</button>';
+  html += '    </div>';
+  html += '    <div class="col-md-4">';
+  html += '      <button id="two-players-button" type="button" class="btn btn-success" number="2">2-Players</button>';
+  html += '    </div>';
+  html += '    <div class="col-md-2"></div>';
+  html += '  </div>';
+  html += '  <div class="row">';
+  html += '      <div class="col-md-12 text-center my-4">';
+  html += '          <button id="toggle-rules" type="button" class="btn btn-info" number="1">Rules</button>';
+  html += '      </div>';
+  html += '  </div>';
+  html += '</div>';
+
+
+  $("#game-controller").html(html).fadeIn();
+  activateRulesButton();
+  activateNewGameButton();
+}
+
 
 ///////////////////////////////// END controller content handlers /////////////////////////////////
 
@@ -538,8 +579,8 @@ MemoryGame.prototype.askToPlayAgain = function(){
 // decrases the time available to players if the game has gone for too long
 */
 MemoryGame.prototype.decreaseTimer = function(){
-  if(this.currentRound > 5 && this.currentRound < 15){
-    this.currentTimeLimit--;
+  if(this.currentRound > 1 && this.currentRound < 8){
+    this.currentTimeLimit -= 2;
   }
 }
 
@@ -584,7 +625,7 @@ MemoryGame.prototype.startTurn = function(){
           this.turnWaitForAnswers();
         }, second * 1);
       }, second * 1);
-    }, second * 2);
+    }, second * 6);
   }, second * 1);
 }
 

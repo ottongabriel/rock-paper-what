@@ -11,7 +11,7 @@ var MemoryGame = function(){
   this.currentQuestion = "";
   this.currentCorrectAnswer = "";
   this.numberOfRightClicks = 0;
-  this.isNotOver = true;
+  this.isGameOver = false;
   this.winner;
   this.countDown;
   this.currentTimeLimit = 20;
@@ -351,24 +351,14 @@ MemoryGame.prototype.handleWrongAnswer = function(situation){
   // turn all of the answer buttons red
   $(".answer-button").toggleClass("btn-success btn-danger");
   $(".answer-button").off();
-  
-  // if the player clicked on the wrong answer
-  if(situation === "wrong answer"){
-    // say you got it wrong
-    this.sayYouGotItWrong();
-    window.clearInterval(this.countDown);
-  }
-  // if the player took too long
-  if(situation === "time is up"){
-    // ray you ran ou of time
-    this.sayTimeIsUp();
-  }
 
   // if there is only one Player
   if(Number(this.numberOfPlayers) === 1){
+    this.isGameOver = true;
     // the game is over
     this.onePlayerGameOver();
   }
+
   // if there are two players
   else{
     // figure out if someone has won
@@ -386,6 +376,19 @@ MemoryGame.prototype.handleWrongAnswer = function(situation){
       }, second * 1);
     }
   }
+
+  // if the player clicked on the wrong answer
+  if(situation === "wrong answer"){
+    // say you got it wrong
+    this.sayYouGotItWrong();
+    window.clearInterval(this.countDown);
+  }
+  // if the player took too long
+  if(situation === "time is up"){
+    // ray you ran ou of time
+    this.sayTimeIsUp();
+  }
+
 }
 
 /*
@@ -424,6 +427,8 @@ MemoryGame.prototype.handleRightAnswer = function(cardIndex){
 MemoryGame.prototype.figureOutIfSomeoneWon = function(){
   // if the difference in score between player one and player two is greater than 4
   if(this.playerOnePoints - this.playerTwoPoints >= 4){
+    // sets the game as over
+    this.isGameOver = true;
     // set player one as the winner
     this.winner = "Player 1";
     // inform the program that someone has won
@@ -431,6 +436,8 @@ MemoryGame.prototype.figureOutIfSomeoneWon = function(){
   }
   // if the difference in points between player two and player one is greater than 4
   else if(this.playerTwoPoints - this.playerOnePoints >= 4){
+    // sets the game as over
+    this.isGameOver = true;
     // set player two as the winner
     this.winner = "Player 2"
     // inform the program that someone has won
@@ -468,7 +475,9 @@ MemoryGame.prototype.sayNothing = function(){
 // You got it wrong 
 */
 MemoryGame.prototype.sayYouGotItWrong = function(){
-  $("#question").text("You got it wrong X_x").hide();
+  var html = "You got it wrong X_x";
+  html += this.passTheMouseIfNecessary();
+  $("#question").html(html).hide();
   $("#question").fadeIn();
 }
 
@@ -476,7 +485,9 @@ MemoryGame.prototype.sayYouGotItWrong = function(){
 // You ran out of time
 */
 MemoryGame.prototype.sayTimeIsUp = function(){
-  $("#question").text("Time's up x_X").hide();
+  var html = "Time's up x_X";
+  html += this.passTheMouseIfNecessary();
+  $("#question").html(html).hide();
   $("#question").fadeIn();
 }
 
@@ -484,9 +495,23 @@ MemoryGame.prototype.sayTimeIsUp = function(){
 // Celebration for getting them all right
 */
 MemoryGame.prototype.sayYouGotThemAllRight = function(){
-  $("#question").text("You got them all right!!! :D").hide();
+  var html = "You got them all right!!! :D";
+  html += this.passTheMouseIfNecessary();
+  $("#question").html(html).hide();
   $("#question").fadeIn();
 }
+
+/*
+// Says you need to pass the mouse if necessary
+*/
+MemoryGame.prototype.passTheMouseIfNecessary = function(){
+  var message = "";
+  if(this.numberOfPlayers == 2 && this.isGameOver === false){
+    message = "<br><h5>Pass the mouse to the next player</h5>"
+  }
+  return message;
+}
+
 ///////////////////////////////// END top header text handlers /////////////////////////////////
 
 

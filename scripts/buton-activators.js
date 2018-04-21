@@ -1,5 +1,6 @@
 /*
 // Activates the button that allows the players to start the game
+// the game is not instantiated yet, so it cant be part of the MemoryGame class
 */
 function activateNewGameButton(){
   $('#one-player-button, #two-players-button').click(function(e){
@@ -11,6 +12,7 @@ function activateNewGameButton(){
 
 /*
 // Activates the button that shows the rules
+// the game is not instantiated yet, so it cant be part of the MemoryGame class
 */
 function activateRulesButton(){
   $("#show-rules").on("click", function(){
@@ -22,9 +24,10 @@ function activateRulesButton(){
 /*
 // Activates the button that asks if the player is ready
 */
-function activateReadyButton(){
+MemoryGame.prototype.activateReadyButton = function(){
+   var that = this;
   $("#ready-button").one("click", function(){
-    game.startTurn();
+    that.startTurn();
   })
 }
 
@@ -33,14 +36,15 @@ function activateReadyButton(){
 /*
 // Activates the button that asks players if they want to play again
 */
-function activatePayAgainButton(){
+MemoryGame.prototype.activatePlayAgainButton = function(){
+  var that = this;
   $("#play-again").on("click", function(){
-    game.clearController();
-    game.sayNothing();
-    game.askHowManyPlayers();
-    game.clearAllCards();
-    game.resetPlayerPoints();
-    game.updateTimer(0);
+    that.clearController();
+    that.sayNothing();
+    that.askHowManyPlayers();
+    that.clearAllCards();
+    that.resetPlayerPoints();
+    that.updateTimer(0);
     activateNewGameButton();
     activateRulesButton();
   })
@@ -49,11 +53,12 @@ function activatePayAgainButton(){
 /*
 // Activates the buttons on the back of the cards so that players may anser the questions
 */
-function activateAnswerButtons(){
+MemoryGame.prototype.activateAnswerButtons = function(){
+  var that = this;
   $(".answer-button").one("click", function(){
     var cardIndex = $(this).parent().parent().parent().parent().attr("card-number");
     var answerGiven = $(this).text();
-    game.isItTheRightAnswer(answerGiven, cardIndex);
+    that.isItTheRightAnswer(answerGiven, cardIndex);
   })
 }
 

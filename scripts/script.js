@@ -5,6 +5,3 @@ $( window ).on( "load", function() {
   activateRulesButton();
   activateNewGameButton();
 })
-
-
-

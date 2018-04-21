@@ -1,3 +1,8 @@
+/*
+// There is currently only one deck now
+// the structure is there to add more in the future
+*/
+
 var decks = [
 
  
@@ -31,7 +36,7 @@ var decks = [
       }
     ],
     questions: [
-      ["What was on the card?", "cardName"],
+      // ["What was on the card?", "cardName"], // removed this question for being to easy
       ["What does the item on the card beat?", "beats"],
       ["What beats what was on the card?", "isBeatBy"],
       ["What was the color of the card?", "backgroundColor"],

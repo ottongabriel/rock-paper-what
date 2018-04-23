@@ -1,4 +1,4 @@
-co/////////////// DESCRIPTION
+/////////////// DESCRIPTION
 
 This is a memory game for one or two players
 
@@ -45,6 +45,7 @@ I started writing functions one by one with the functionality that I knew the ga
 //////////////// INSTALLATION INSTRUCTIONS
 
 You can access the most current version of the game here: https://ottongabriel.github.io/rock-paper-what/
+
 To run on our own computer, clone the repository, and open the index.html in your browser.
 
 

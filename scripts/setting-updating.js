@@ -16,11 +16,13 @@ MemoryGame.prototype.togglePlayer = function(){
   if( Number(this.numberOfPlayers) === 2 ){
     if(Number(this.currentPlayersTurn) === 1){
       this.currentPlayersTurn = 2;
+      $(".points").parent().toggleClass("current");
     }
     else{
       this.currentPlayersTurn = 1;
       this.currentRound++;
       this.decreaseTimeLimit();
+      $(".points").parent().toggleClass("current");
     }
   }
   else{
